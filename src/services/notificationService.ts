@@ -14,7 +14,6 @@ export class NotificationService {
 
             channel.sendToQueue(queue, Buffer.from(message));
         } catch (error) {
-            console.error('Error sending message to queue:', error);
             throw new Error('Failed to send notification');
         } finally {
             if (channel) {
