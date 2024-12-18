@@ -13,7 +13,6 @@ export class NotificationService {
             await channel.assertQueue(queue, { durable: true });
 
             channel.sendToQueue(queue, Buffer.from(message));
-            console.log(`Message sent to queue: ${message}`);
         } catch (error) {
             console.error('Error sending message to queue:', error);
             throw new Error('Failed to send notification');

@@ -1,8 +1,9 @@
 import amqp from 'amqplib';
+import dotenv from 'dotenv'
 
-const RABBITMQ_URL = 'amqp://localhost'; // Ou outra URL de RabbitMQ
+dotenv.config();
 
 export const connectToRabbitMQ = async () => {
-    const connection = await amqp.connect(RABBITMQ_URL);
+    const connection = await amqp.connect(process.env.RABBITMQ_URL as string);
     return connection;
 };
