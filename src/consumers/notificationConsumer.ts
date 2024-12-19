@@ -18,7 +18,10 @@ export class NotificationConsumer {
             channel.consume(queue, (msg) => {
                 if (msg !== null) {
                     const messageContent = msg.content.toString();
-                    console.log(`Received message: ${messageContent}`);
+                    const notification = JSON.parse(messageContent);
+
+                    console.log(`Received notification:`, notification);
+
                     channel.ack(msg);
                 }
             });

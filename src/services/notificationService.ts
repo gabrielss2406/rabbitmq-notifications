@@ -1,9 +1,10 @@
+import { Channel, Connection } from "amqplib";
 import { connectToRabbitMQ } from "../utils/rabbitmq";
 
 export class NotificationService {
-    async sendNotification(message: string) {
-        let connection;
-        let channel;
+    async sendNotification(notification: { userId: string; message: string }) {
+        let connection: Connection | null = null;
+        let channel: Channel | null = null;
 
         try {
             connection = await connectToRabbitMQ();
@@ -12,16 +13,13 @@ export class NotificationService {
             const queue = 'notifications';
             await channel.assertQueue(queue, { durable: true });
 
-            channel.sendToQueue(queue, Buffer.from(message));
+            const message = Buffer.from(JSON.stringify(notification));
+            channel.sendToQueue(queue, message);
         } catch (error) {
             throw new Error('Failed to send notification');
         } finally {
-            if (channel) {
-                await channel.close();
-            }
-            if (connection) {
-                await connection.close();
-            }
+            if (channel) await channel.close();
+            if (connection) await connection.close();
         }
     }
 }

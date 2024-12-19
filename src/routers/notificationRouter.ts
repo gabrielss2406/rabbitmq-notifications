@@ -11,9 +11,15 @@ const notificationRouter: FastifyPluginCallback = (app: FastifyInstance, options
             body: {
                 type: 'object',
                 properties: {
-                    message: { type: 'string', description: 'Mensagem da notificação' },
+                    notification: {
+                        type: 'object',
+                        properties: {
+                            userId: { type: 'string' },
+                            message: { type: 'string' },
+                        },
+                    },
                 },
-                required: ['message'],
+                required: ['notification'],
             },
             response: {
                 201: {
